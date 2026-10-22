@@ -1,0 +1,26 @@
+{
+  "name": "@study/auth",
+  "type": "module",
+  "exports": {
+    ".": {
+      "default": "./src/index.ts"
+    },
+    "./*": {
+      "default": "./src/*.ts"
+    }
+  },
+  "scripts": {
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@polar-sh/better-auth": "catalog:",
+    "@polar-sh/sdk": "^0.47.0",
+    "@study/db": "workspace:*",
+    "better-auth": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@study/config": "workspace:*",
+    "typescript": "catalog:"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "tui",
+  "globalEnv": [
+    "BETTER_AUTH_SECRET",
+    "BETTER_AUTH_URL",
+    "CI",
+    "DATABASE_URL",
+    "GOOGLE_CLIENT_ID",
+    "GOOGLE_CLIENT_SECRET",
+    "NODE_ENV",
+    "POLAR_ACCESS_TOKEN",
+    "POLAR_SUCCESS_URL",
+    "R2_ACCESS_KEY_ID",
+    "R2_ACCOUNT_ID",
+    "R2_BUCKET",
+    "R2_SECRET_ACCESS_KEY",
+    "RESEND_API_KEY",
+    "SKIP_ENV_VALIDATION",
+    "VERCEL",
+    "VERCEL_ENV",
+    "VERCEL_PROJECT_PRODUCTION_URL",
+    "VERCEL_URL",
+    "_VARLOCK_ENV_KEY"
+  ],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
+    },
+    "lint": {
+      "dependsOn": ["^lint"]
+    },
+    "check-types": {
+      "dependsOn": ["^check-types"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:push": {
+      "cache": false,
+      "interactive": true
+    },
+    "db:generate": {
+      "cache": false,
+      "interactive": true
+    },
+    "db:migrate": {
+      "cache": false,
+      "interactive": true
+    },
+    "db:studio": {
+      "cache": false,
+      "persistent": true
+    }
+  },
+  "globalDependencies": [".env*", "apps/*/.env*", "packages/*/.env*"]
+}

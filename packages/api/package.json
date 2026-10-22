@@ -1,0 +1,26 @@
+{
+  "name": "@study/api",
+  "type": "module",
+  "exports": {
+    ".": {
+      "default": "./src/index.ts"
+    },
+    "./*": {
+      "default": "./src/*.ts"
+    }
+  },
+  "scripts": {
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@study/auth": "workspace:*",
+    "@study/db": "workspace:*",
+    "@trpc/client": "catalog:",
+    "@trpc/server": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@study/config": "workspace:*",
+    "typescript": "catalog:"
+  }
+}
