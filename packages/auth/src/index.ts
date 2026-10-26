@@ -11,6 +11,7 @@ export type AuthConfig = {
   BETTER_AUTH_SECRET: string;
   GOOGLE_CLIENT_ID: string;
   GOOGLE_CLIENT_SECRET: string;
+  POLAR_PRODUCT_ID: string;
   POLAR_ACCESS_TOKEN: string;
   POLAR_SUCCESS_URL: string;
 };
@@ -36,7 +37,7 @@ export function createAuth(env: AuthConfig, database: Database) {
         createCustomerOnSignUp: true,
         use: [
           checkout({
-            products: [{ productId: "your-product-id", slug: "pro" }],
+            products: [{ productId: env.POLAR_PRODUCT_ID, slug: "pro" }],
             successUrl: env.POLAR_SUCCESS_URL,
             authenticatedUsersOnly: true,
           }),
