@@ -1,4 +1,6 @@
 "use client";
+
+import { cn } from "@study/ui/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 
 import { trpc } from "@/utils/trpc";
@@ -14,8 +16,17 @@ const TITLE_TEXT = `
                  ▄▌                   ▄▌            
 `;
 
-export default function Home() {
+const Home = () => {
   const healthCheck = useQuery(trpc.healthCheck.queryOptions());
+  const isConnected = Boolean(healthCheck.data);
+
+  let statusText = "Disconnected";
+
+  if (healthCheck.isLoading) {
+    statusText = "Checking...";
+  } else if (isConnected) {
+    statusText = "Connected";
+  }
 
   return (
     <div className="container mx-auto max-w-3xl px-4 py-2">
@@ -25,18 +36,17 @@ export default function Home() {
           <h2 className="mb-2 font-medium">API Status</h2>
           <div className="flex items-center gap-2">
             <div
-              className={`size-2 rounded-full ${healthCheck.data ? "bg-green-500" : "bg-red-500"}`}
+              className={cn(
+                "size-2 rounded-full",
+                isConnected ? "bg-primary" : "bg-destructive"
+              )}
             />
-            <span className="text-sm text-muted-foreground">
-              {healthCheck.isLoading
-                ? "Checking..."
-                : healthCheck.data
-                  ? "Connected"
-                  : "Disconnected"}
-            </span>
+            <span className="text-sm text-muted-foreground">{statusText}</span>
           </div>
         </section>
       </div>
     </div>
   );
-}
+};
+
+export default Home;

@@ -20,21 +20,21 @@ export const metadata: Metadata = {
   description: "study",
 };
 
-export default function RootLayout({
+const RootLayout = ({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Providers>
-          <div className="grid grid-rows-[auto_1fr] h-svh">
-            <Header />
-            {children}
-          </div>
-        </Providers>
-      </body>
-    </html>
-  );
-}
+}>) => (
+  <html lang="en" suppressHydrationWarning>
+    <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <Providers>
+        <div className="grid h-svh grid-rows-[auto_1fr]">
+          <Header />
+          {children}
+        </div>
+      </Providers>
+    </body>
+  </html>
+);
+
+export default RootLayout;

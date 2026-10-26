@@ -15,9 +15,7 @@ import {
   FieldSeparator,
 } from "@study/ui/components/field";
 import { Input } from "@study/ui/components/input";
-import { Github } from "@study/ui/socials/github";
 import { Google } from "@study/ui/socials/google";
-import { Linkedin } from "@study/ui/socials/linkedin";
 import { useForm } from "@tanstack/react-form";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -37,11 +35,11 @@ const signInWithSocial = async (provider: "github" | "google" | "linkedin") => {
       onError: (error) => {
         toast.error(error.error.message);
       },
-    },
+    }
   );
 };
 
-export default function SignUpForm({ onSwitchToSignIn }: { onSwitchToSignIn: () => void }) {
+const SignUpForm = ({ onSwitchToSignIn }: { onSwitchToSignIn: () => void }) => {
   const router = useRouter();
   const { isPending } = authClient.useSession();
 
@@ -66,7 +64,7 @@ export default function SignUpForm({ onSwitchToSignIn }: { onSwitchToSignIn: () 
             router.push("/dashboard");
             toast.success("Sign up successful");
           },
-        },
+        }
       );
     },
     validators: {
@@ -86,14 +84,16 @@ export default function SignUpForm({ onSwitchToSignIn }: { onSwitchToSignIn: () 
     <Card className="mx-auto w-full max-w-md">
       <CardHeader>
         <CardTitle>Create Account</CardTitle>
-        <CardDescription>Enter your details below to create your account</CardDescription>
+        <CardDescription>
+          Enter your details below to create your account
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <form
           onSubmit={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            form.handleSubmit();
+            void form.handleSubmit();
           }}
         >
           <FieldGroup>
@@ -111,10 +111,14 @@ export default function SignUpForm({ onSwitchToSignIn }: { onSwitchToSignIn: () 
                         autoComplete="name"
                         value={field.state.value}
                         onBlur={field.handleBlur}
-                        onChange={(e) => field.handleChange(e.target.value)}
+                        onChange={(e) => {
+                          field.handleChange(e.target.value);
+                        }}
                         aria-invalid={isInvalid}
                       />
-                      {isInvalid ? <FieldError errors={field.state.meta.errors} /> : null}
+                      {isInvalid ? (
+                        <FieldError errors={field.state.meta.errors} />
+                      ) : null}
                     </Field>
                   );
                 }}
@@ -135,10 +139,14 @@ export default function SignUpForm({ onSwitchToSignIn }: { onSwitchToSignIn: () 
                         placeholder="m@example.com"
                         value={field.state.value}
                         onBlur={field.handleBlur}
-                        onChange={(e) => field.handleChange(e.target.value)}
+                        onChange={(e) => {
+                          field.handleChange(e.target.value);
+                        }}
                         aria-invalid={isInvalid}
                       />
-                      {isInvalid ? <FieldError errors={field.state.meta.errors} /> : null}
+                      {isInvalid ? (
+                        <FieldError errors={field.state.meta.errors} />
+                      ) : null}
                     </Field>
                   );
                 }}
@@ -158,10 +166,14 @@ export default function SignUpForm({ onSwitchToSignIn }: { onSwitchToSignIn: () 
                         autoComplete="new-password"
                         value={field.state.value}
                         onBlur={field.handleBlur}
-                        onChange={(e) => field.handleChange(e.target.value)}
+                        onChange={(e) => {
+                          field.handleChange(e.target.value);
+                        }}
                         aria-invalid={isInvalid}
                       />
-                      {isInvalid ? <FieldError errors={field.state.meta.errors} /> : null}
+                      {isInvalid ? (
+                        <FieldError errors={field.state.meta.errors} />
+                      ) : null}
                     </Field>
                   );
                 }}
@@ -183,7 +195,13 @@ export default function SignUpForm({ onSwitchToSignIn }: { onSwitchToSignIn: () 
             </Field>
             <FieldSeparator>Or continue with</FieldSeparator>
             <Field>
-              <Button type="button" variant="outline" onClick={() => signInWithSocial("google")}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => {
+                  void signInWithSocial("google");
+                }}
+              >
                 <Google data-icon="inline-start" />
                 Continue with Google
               </Button>
@@ -199,4 +217,6 @@ export default function SignUpForm({ onSwitchToSignIn }: { onSwitchToSignIn: () 
       </CardContent>
     </Card>
   );
-}
+};
+
+export default SignUpForm;

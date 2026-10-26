@@ -8,7 +8,7 @@ import Dashboard from "./dashboard";
 
 export const instant = false;
 
-export default async function DashboardPage() {
+const DashboardPage = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -27,7 +27,9 @@ export default async function DashboardPage() {
     <div>
       <h1>Dashboard</h1>
       <p>Welcome {session.user.name}</p>
-      <Dashboard session={session} customerState={customerState} />
+      <Dashboard _session={session} customerState={customerState} />
     </div>
   );
-}
+};
+
+export default DashboardPage;

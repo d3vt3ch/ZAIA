@@ -15,9 +15,7 @@ import {
   FieldSeparator,
 } from "@study/ui/components/field";
 import { Input } from "@study/ui/components/input";
-import { Github } from "@study/ui/socials/github";
 import { Google } from "@study/ui/socials/google";
-import { Linkedin } from "@study/ui/socials/linkedin";
 import { useForm } from "@tanstack/react-form";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -37,11 +35,11 @@ const signInWithSocial = async (provider: "github" | "google" | "linkedin") => {
       onError: (error) => {
         toast.error(error.error.message);
       },
-    },
+    }
   );
 };
 
-export default function SignInForm({ onSwitchToSignUp }: { onSwitchToSignUp: () => void }) {
+const SignInForm = ({ onSwitchToSignUp }: { onSwitchToSignUp: () => void }) => {
   const router = useRouter();
   const { isPending } = authClient.useSession();
 
@@ -64,7 +62,7 @@ export default function SignInForm({ onSwitchToSignUp }: { onSwitchToSignUp: () 
             router.push("/dashboard");
             toast.success("Sign in successful");
           },
-        },
+        }
       );
     },
     validators: {
@@ -83,14 +81,16 @@ export default function SignInForm({ onSwitchToSignUp }: { onSwitchToSignUp: () 
     <Card className="mx-auto w-full max-w-md">
       <CardHeader>
         <CardTitle>Welcome Back</CardTitle>
-        <CardDescription>Enter your email below to sign in to your account</CardDescription>
+        <CardDescription>
+          Enter your email below to sign in to your account
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <form
           onSubmit={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            form.handleSubmit();
+            void form.handleSubmit();
           }}
         >
           <FieldGroup>
@@ -110,10 +110,14 @@ export default function SignInForm({ onSwitchToSignUp }: { onSwitchToSignUp: () 
                         placeholder="m@example.com"
                         value={field.state.value}
                         onBlur={field.handleBlur}
-                        onChange={(e) => field.handleChange(e.target.value)}
+                        onChange={(e) => {
+                          field.handleChange(e.target.value);
+                        }}
                         aria-invalid={isInvalid}
                       />
-                      {isInvalid ? <FieldError errors={field.state.meta.errors} /> : null}
+                      {isInvalid ? (
+                        <FieldError errors={field.state.meta.errors} />
+                      ) : null}
                     </Field>
                   );
                 }}
@@ -133,10 +137,14 @@ export default function SignInForm({ onSwitchToSignUp }: { onSwitchToSignUp: () 
                         autoComplete="current-password"
                         value={field.state.value}
                         onBlur={field.handleBlur}
-                        onChange={(e) => field.handleChange(e.target.value)}
+                        onChange={(e) => {
+                          field.handleChange(e.target.value);
+                        }}
                         aria-invalid={isInvalid}
                       />
-                      {isInvalid ? <FieldError errors={field.state.meta.errors} /> : null}
+                      {isInvalid ? (
+                        <FieldError errors={field.state.meta.errors} />
+                      ) : null}
                     </Field>
                   );
                 }}
@@ -158,7 +166,13 @@ export default function SignInForm({ onSwitchToSignUp }: { onSwitchToSignUp: () 
             </Field>
             <FieldSeparator>Or continue with</FieldSeparator>
             <Field>
-              <Button type="button" variant="outline" onClick={() => signInWithSocial("google")}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => {
+                  void signInWithSocial("google");
+                }}
+              >
                 <Google data-icon="inline-start" />
                 Continue with Google
               </Button>
@@ -174,4 +188,6 @@ export default function SignInForm({ onSwitchToSignUp }: { onSwitchToSignUp: () 
       </CardContent>
     </Card>
   );
-}
+};
+
+export default SignInForm;

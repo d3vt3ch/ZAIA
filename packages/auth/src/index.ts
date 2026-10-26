@@ -6,7 +6,7 @@ import { nextCookies } from "better-auth/next-js";
 
 import { createPolarClient } from "./lib/payments";
 
-export type AuthConfig = {
+export interface AuthConfig {
   BETTER_AUTH_URL: string;
   BETTER_AUTH_SECRET: string;
   GOOGLE_CLIENT_ID: string;
@@ -14,23 +14,15 @@ export type AuthConfig = {
   POLAR_PRODUCT_ID: string;
   POLAR_ACCESS_TOKEN: string;
   POLAR_SUCCESS_URL: string;
-};
+}
 
-export function createAuth(env: AuthConfig, database: Database) {
-  return betterAuth({
+export const createAuth = (env: AuthConfig, database: Database) =>
+  betterAuth({
+    baseURL: env.BETTER_AUTH_URL,
     database: prismaAdapter(database, {
       provider: "postgresql",
     }),
-    trustedOrigins: [env.BETTER_AUTH_URL],
     emailAndPassword: { enabled: true },
-    secret: env.BETTER_AUTH_SECRET,
-    baseURL: env.BETTER_AUTH_URL,
-    socialProviders: {
-      google: {
-        clientId: env.GOOGLE_CLIENT_ID,
-        clientSecret: env.GOOGLE_CLIENT_SECRET,
-      },
-    },
     plugins: [
       polar({
         client: createPolarClient(env),
@@ -46,5 +38,12 @@ export function createAuth(env: AuthConfig, database: Database) {
       }),
       nextCookies(),
     ],
+    secret: env.BETTER_AUTH_SECRET,
+    socialProviders: {
+      google: {
+        clientId: env.GOOGLE_CLIENT_ID,
+        clientSecret: env.GOOGLE_CLIENT_SECRET,
+      },
+    },
+    trustedOrigins: [env.BETTER_AUTH_URL],
   });
-}
